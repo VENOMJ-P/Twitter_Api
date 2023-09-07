@@ -1,17 +1,17 @@
-import express from 'express';
+import express from "express";
+import bodyParser from "body-parser";
 const app = express();
 
-import {connect} from './config/database.js';
+import { connect } from "./config/database.js";
+import apiRoutes from "./routes/index.js";
 
-import TweetService from './services/tweet-services.js';
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}))
+app.use("/api", apiRoutes);
 
 app.listen(3000, async () => {
-    console.log("Server started");
-    connect();
-    console.log("Successfully connected to mongodb")
-   const tweetService = new TweetService();
-    const tweet = await tweetService.create({
-        content: 'This tweet came from es6 module Done #refactor'
-    })
-    console.log(tweet);
-})
+  console.log("Server started");
+  connect();
+  console.log("Successfully connected to mongodb");
+});
