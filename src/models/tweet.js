@@ -18,6 +18,12 @@ const tweetSchema = new mongoose.Schema({
             ref: 'Like'
         }
     ],
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ],
 }, {
     timestamps: true //This helps to give createdAt and updatedAt
 });
