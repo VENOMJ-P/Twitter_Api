@@ -25,9 +25,11 @@ const tweetSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
-    image: {
-      type: String,
-    },
+    image: [
+      {
+        type: String,
+      },
+    ],
   },
   {
     timestamps: true, //This helps to give createdAt and updatedAt
