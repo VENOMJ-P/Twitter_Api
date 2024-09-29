@@ -1,31 +1,25 @@
+import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
-import multerS3 from "multer-s3";
-import aws from "aws-sdk";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-aws.config.update({
-  region: process.env.AWS_REGION,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  accessKeyId: process.env.ACCESS_KEY_ID,
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const s3 = new aws.S3();
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.BUCKET_NAME,
-    acl: 'public-read',
-    metadata: function (req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
-    },
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString());
-    },
-  }),
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "uploads",
+    format: async (req, file) => "png",
+    public_id: (req, file) => Date.now().toString(),
+  },
 });
 
+const upload = multer({ storage });
 
 export default upload;

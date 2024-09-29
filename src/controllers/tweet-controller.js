@@ -6,7 +6,7 @@ import upload from "../config/file-upload-s3-config.js";
 // const singleUploader = upload.single("image");
 
 //for multiple image
-const multiUploader = upload.array("image",10);
+const multiUploader = upload.array("image", 10);
 
 const tweetService = new TweetService();
 
@@ -22,7 +22,7 @@ export const createTweet = async (req, res) => {
       let location = [];
       for (let index = 0; index < req.files.length; index++) {
         const element = req.files[index];
-        location.push(element.location)
+        location.push(element.location);
       }
       payload.image = location;
       console.log(payload);
