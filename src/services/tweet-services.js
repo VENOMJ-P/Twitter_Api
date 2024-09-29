@@ -59,6 +59,7 @@ class TweetService {
       return tweet;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 }
